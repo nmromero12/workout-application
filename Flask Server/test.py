@@ -9,9 +9,11 @@ data = {
     "date": "2025-03-17",
     "weight": 45
 }
-
 response = requests.put(BASE + "workout/1", json=data)
 print(response.json())
 input()
-response =requests.get(BASE + "workout/2")
-print(response.json())
+response = requests.delete(BASE + "workout/delete/1")
+
+print(response)
+
+

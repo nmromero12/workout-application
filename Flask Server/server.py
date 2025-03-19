@@ -45,33 +45,27 @@ resource_fields = {
 class Workout(Resource):
     @marshal_with(resource_fields)
     def get(self, date):
-        result = WorkoutModel.query.filter_by(date=date).first()
+        result = WorkoutModel.query.filter_by(date=date).all()
         if not result:
             abort(404, message="Could not find workout with that Date.")
         return result
 
     @marshal_with(resource_fields)
-    def put(self, workout_id):
+    def post(self):
         args = workout_put_args.parse_args()
 
-        # Check if workout with this ID already exists
-        existing_workout = WorkoutModel.query.get(workout_id)
-        if existing_workout:
-            abort(409, message="Workout with this ID already exists.")
-
         workout = WorkoutModel(
-            id=workout_id,
             name=args['name'],
             sets=args['sets'],
             reps=args['reps'],
-            weight=args['weight'],
-            date=args['date']
-        )
+            date=args['date'],
+            weight=args['weight']
 
+        )
         db.session.add(workout)
         db.session.commit()
-
         return workout, 201
+
     
     def delete (self, workout_id):
         workout = WorkoutModel.query.get(workout_id)
@@ -84,9 +78,9 @@ class Workout(Resource):
         return 'successfully deleted', 204
 
 # Add resource to the API
-api.add_resource(Workout, "/workout/<int:workout_id>", endpoint="workout_by_id")
-api.add_resource(Workout, "/workout/date/<string:date>", endpoint="workout_by_date")
-api.add_resource(Workout, "/workout/delete/<int:workout_id>", endpoint="delete_by_date")
+api.add_resource(Workout, "/workout", endpoint="workout_post")
+api.add_resource(Workout, "/workout/<string:date>", endpoint="workout_by_date")
+
 
 
 if __name__ == "__main__":

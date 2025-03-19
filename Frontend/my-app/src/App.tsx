@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { WorkoutLog } from './Components/WorkoutLog';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
           Fitness
         </p>
       </header>
+      <WorkoutLog />
     </div>
   );
 }

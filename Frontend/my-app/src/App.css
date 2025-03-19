@@ -24,6 +24,11 @@
   color: white;
 }
 
+.box {
+  border: 1px solid black;
+  height: 200px;
+}
+
 .App-link {
   color: #61dafb;
 }

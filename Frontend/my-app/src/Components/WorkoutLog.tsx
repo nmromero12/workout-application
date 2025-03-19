@@ -25,6 +25,12 @@ export function WorkoutLog(){
               },
               body: JSON.stringify(workoutData)
             });
+
+            setName("");
+            setSets("");
+            setReps("");
+            setDate("");
+            setWeights("");
         }
         
             

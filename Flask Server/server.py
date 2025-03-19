@@ -47,7 +47,7 @@ resource_fields = {
 class Workout(Resource):
     @marshal_with(resource_fields)
     def get(self, date):
-        result = WorkoutModel.query.filter_by(date=date).all()
+        result = WorkoutModel.query.filter_by(date=date).first()
         if not result:
             abort(404, message="Could not find workout with that Date.")
         return result

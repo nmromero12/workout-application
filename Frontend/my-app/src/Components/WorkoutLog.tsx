@@ -6,7 +6,7 @@ export function WorkoutLog(){
     const [reps, setReps] = useState<string>("")
     const [date, setDate] = useState<string>("")
     const [weight, setWeights] = useState<string>("")
-    function handleSearch(){
+    function handleSubmit(){
         //access DB and upload there
     }
     return (
@@ -41,7 +41,7 @@ export function WorkoutLog(){
                 value={weight}
                 onChange={(e) => setWeights(e.target.value)}
                 />
-                <button onClick={handleSearch}>
+                <button onClick={handleSubmit}>
                     Submit
                 </button>
             </div>

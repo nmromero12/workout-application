@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { WorkoutLog } from './Components/WorkoutLog';
+import { WorkoutSearch } from './Components/WorkoutSearch';
+
 
 function App() {
   return (
@@ -12,6 +14,7 @@ function App() {
         </p>
       </header>
       <WorkoutLog />
+      <WorkoutSearch/>
     </div>
   );
 }

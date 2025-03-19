@@ -3,11 +3,7 @@ import requests
 BASE = "http://127.0.0.1:5000/"
 
 data = {
-    "name": "pushups",
-    "sets": 3,
-    "reps": 15,
-    "date": "2025-03-17",
-    "weight": 45
+    
 }
 
 data_two = {
@@ -21,11 +17,8 @@ data_two = {
 # print(response.json())
 # input()
 
-response = requests.post(BASE + "workout", json=data_two)
 
-input()
-
-response = requests.get(BASE + "workout/2025-03-18")
+response = requests.get(BASE + "workout/2004-12-29")
 
 
 print(response.json())

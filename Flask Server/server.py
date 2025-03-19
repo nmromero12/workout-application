@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 app = Flask(__name__)
-api = Api(app)
+CORS(app)
+api = Api(app)  
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fitness.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -11,9 +13,9 @@ db = SQLAlchemy(app)
 class WorkoutModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    sets = db.Column(db.Integer, nullable=False)
-    reps = db.Column(db.Integer, nullable=False)
-    weight = db.Column(db.Integer, nullable=False)
+    sets = db.Column(db.String, nullable=False)
+    reps = db.Column(db.String, nullable=False)
+    weight = db.Column(db.String, nullable=False)
     date = db.Column(db.String, nullable=False)
 
     def __repr__(self):
@@ -27,10 +29,10 @@ with app.app_context():
 # Request parser for workout data
 workout_put_args = reqparse.RequestParser()
 workout_put_args.add_argument("name", type=str, help="Name of the Exercise", required=True)
-workout_put_args.add_argument("sets", type=int, help="Number of Sets", required=True)
-workout_put_args.add_argument("reps", type=int, help="Number of Repetitions", required=True)
+workout_put_args.add_argument("sets", type=str, help="Number of Sets", required=True)
+workout_put_args.add_argument("reps", type=str, help="Number of Repetitions", required=True)
 workout_put_args.add_argument("date", type=str, help="Date of Workout", required=True)
-workout_put_args.add_argument("weight", type=int, help="The Weight for the Exercise", required=True)
+workout_put_args.add_argument("weight", type=str, help="The Weight for the Exercise", required=True)
 
 # Define the resource fields for marshalling
 resource_fields = {
@@ -50,21 +52,6 @@ class Workout(Resource):
             abort(404, message="Could not find workout with that Date.")
         return result
 
-    @marshal_with(resource_fields)
-    def post(self):
-        args = workout_put_args.parse_args()
-
-        workout = WorkoutModel(
-            name=args['name'],
-            sets=args['sets'],
-            reps=args['reps'],
-            date=args['date'],
-            weight=args['weight']
-
-        )
-        db.session.add(workout)
-        db.session.commit()
-        return workout, 201
 
     
     def delete (self, workout_id):
@@ -77,8 +64,23 @@ class Workout(Resource):
 
         return 'successfully deleted', 204
 
+class WorkoutPost(Resource):
+    @marshal_with(resource_fields)
+    def post(self):
+        args = workout_put_args.parse_args()
+        workout = WorkoutModel(
+            name=args['name'],
+            sets=args['sets'],
+            reps=args['reps'],
+            date=args['date'],
+            weight=args['weight']
+        )
+        db.session.add(workout)
+        db.session.commit()
+        return workout, 201
+
 # Add resource to the API
-api.add_resource(Workout, "/workout", endpoint="workout_post")
+api.add_resource(WorkoutPost, "/workout", endpoint="workout_post")
 api.add_resource(Workout, "/workout/<string:date>", endpoint="workout_by_date")
 
 

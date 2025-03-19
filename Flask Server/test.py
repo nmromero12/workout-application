@@ -21,11 +21,8 @@ data_two = {
 # print(response.json())
 # input()
 
-response = requests.post(BASE + "workout", json=data_two)
 
-input()
-
-response = requests.get(BASE + "workout/2025-03-18")
+response = requests.get(BASE + "workout/2004-12-29")
 
 
 print(response.json())

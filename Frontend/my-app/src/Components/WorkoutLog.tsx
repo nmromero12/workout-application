@@ -6,9 +6,31 @@ export function WorkoutLog(){
     const [reps, setReps] = useState<string>("")
     const [date, setDate] = useState<string>("")
     const [weight, setWeights] = useState<string>("")
-    function handleSubmit(){
+    async function handleSubmit(){
         //access DB and upload there
-    }
+
+        const workoutData = {
+            name: name,
+            sets: sets,
+            reps: reps,
+            date: date,
+            weight: weight
+        }
+
+        
+        const response = await fetch("http://localhost:5000/workout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json" 
+              },
+              body: JSON.stringify(workoutData)
+            });
+        }
+        
+            
+          
+        
+    
     return (
         <div>
             <div>
